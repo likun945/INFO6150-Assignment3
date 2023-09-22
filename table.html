@@ -3,27 +3,65 @@
 <!-- Also read chapter 9 from slides - Regular Expressions -->
 
 <html>
+
 <head>
 	<title>Table CheckList</title>
 	<link rel="stylesheet" type="text/css" href="table.css">
 	<link rel="stylesheet" type="text/css" href="style.css">
-	
+
 </head>
+
 <body>
+	<div id="infoContainer"></div>
+	<div id="alertMessage" class="alert-message">
+		<p id="popupText"></p>
+	</div>
+	<div id="editPopup" class="popup">
+		<div class="popup-content">
+			<span class="popup-close" onclick="closeEditPopup()">&times;</span>
+			<h2>Edit details of <span id="studentNamePlaceholder"></span></h2>
+			<div class="form_div">
+				Student Name: <span id="studentNameField">
+					<input type="text" id="editStudentNameInput" />
+				</span><br>
+				Teacher Name: <span id="teacherNameField">
+					<input type="text" id="editTeacherNameInput" />
+				</span><br>
+				Award Status: <span id="awardStatusField">
+					<input type="text" id="editAwardStatusInput" />
+				</span><br>
+				Semester: <span id="semesterField">
+					<input type="text" id="editSemesterInput" />
+				</span><br>
+				Type: <span id="typeField">
+					<input type="text" id="editTypeInput" />
+				</span><br>
+				Budget #: <span id="budgetField">
+					<input type="text" id="editBudgetInput" />
+				</span><br>
+				Percentage: <span id="percentageField">
+					<input type="text" id="editPercentageInput" />
+				</span><br>
+			</div>
+			<button onclick="updateData()">Update</button>
+			<button onclick="closeEditPopup()">Cancel</button>
+		</div>
+	</div>
 	<table id="myTable">
 		<tr>
 			<th></th>
 			<th>STUDENT</th>
 			<th>ADVISOR</th>
-			<th>AWARD<br/>STATUS</th>
+			<th>AWARD<br />STATUS</th>
 			<th>SEMESTER</th>
 			<th>TYPE</th>
 			<th>BUDGET<br />#</th>
 			<th>PERCENTAGE</th>
 			<th>DELETE</th>
+			<th>EDIT</th>
 		</tr>
-		<tr>
-			<td><input type="checkbox" /><br /><br /><img src="down.png" width="25px" /></td>
+		<tr data-row-id="1">
+			<td><input type="checkbox" /><br /><br /><img src="down.png" width="25px" onclick="toggle(this)" /></td>
 			<td>Student 1</td>
 			<td>Teacher 1</td>
 			<td>Approved</td>
@@ -31,19 +69,22 @@
 			<td>TA</td>
 			<td>12345</td>
 			<td>100%</td>
-			<td></td>
+			<td><button onclick="deleteButtonEvent(this)" class="button_not_show">Delete</button></td>
+			<td><button onclick="openEditPopup(this)" class="button_not_show">Edit</button></td>
 		</tr>
-		<tr class="dropDownTextArea"><td colspan="8">
-			Advisor:<br /><br />
-			Award Details<br />
-			Summer 1-2014(TA)<br />
-			Budget Number: <br />
-			Tuition Number: <br />
-			Comments:<br /><br /><br />
-			Award Status:<br /><br /><br />
-		</td></tr>
-		<tr bgcolor="orange">
-			<td><input type="checkbox" checked/><br /><br /><img src="down.png" width="25px" /></td>
+		<tr class="dropDownTextArea">
+			<td colspan="8">
+				Advisor:<br /><br />
+				Award Details<br />
+				Summer 1-2014(TA)<br />
+				Budget Number: <br />
+				Tuition Number: <br />
+				Comments:<br /><br /><br />
+				Award Status:<br /><br /><br />
+			</td>
+		</tr>
+		<tr data-row-id="2">
+			<td><input type="checkbox" /><br /><br /><img src="down.png" width="25px" onclick="toggle(this)" /></td>
 			<td>Student 2</td>
 			<td>Teacher 2</td>
 			<td>Approved</td>
@@ -51,19 +92,22 @@
 			<td>TA</td>
 			<td>23456</td>
 			<td>100%</td>
-			<td><button>Delete</button></td>
+			<td><button onclick="deleteButtonEvent(this)" class="button_not_show">Delete</button></td>
+			<td><button onclick="openEditPopup(this)" class="button_not_show">Edit</button></td>
 		</tr>
-		<tr class="dropDownTextArea"><td colspan="8">
-			Advisor:<br /><br />
-			Award Details<br />
-			Summer 1-2014(TA)<br />
-			Budget Number: <br />
-			Tuition Number: <br />
-			Comments:<br /><br /><br />
-			Award Status:<br /><br /><br />
-		</td></tr>
-		<tr>
-			<td><input type="checkbox" /><br /><br /><img src="down.png" width="25px" /></td>
+		<tr class="dropDownTextArea">
+			<td colspan="8">
+				Advisor:<br /><br />
+				Award Details<br />
+				Summer 1-2014(TA)<br />
+				Budget Number: <br />
+				Tuition Number: <br />
+				Comments:<br /><br /><br />
+				Award Status:<br /><br /><br />
+			</td>
+		</tr>
+		<tr data-row-id="3">
+			<td><input type="checkbox" /><br /><br /><img src="down.png" width="25px" onclick="toggle(this)" /></td>
 			<td>Student 3</td>
 			<td>Teacher 3</td>
 			<td>Approved</td>
@@ -71,26 +115,30 @@
 			<td>TA</td>
 			<td>34567</td>
 			<td>100%</td>
-			<td></td>
+			<td><button onclick="deleteButtonEvent(this)" class="button_not_show">Delete</button></td>
+			<td><button onclick="openEditPopup(this)" class="button_not_show">Edit</button></td>
 		</tr>
-		<tr class="dropDownTextArea"><td colspan="8">
-			Advisor:<br /><br />
-			Award Details<br />
-			Summer 1-2014(TA)<br />
-			Budget Number: <br />
-			Tuition Number: <br />
-			Comments:<br /><br /><br />
-			Award Status:<br /><br /><br />
-		</td></tr>
+		<tr class="dropDownTextArea">
+			<td colspan="8">
+				Advisor:<br /><br />
+				Award Details<br />
+				Summer 1-2014(TA)<br />
+				Budget Number: <br />
+				Tuition Number: <br />
+				Comments:<br /><br /><br />
+				Award Status:<br /><br /><br />
+			</td>
+		</tr>
 	</table>
 
 	<br /><br />
-	
-	<button id="button">SUBMIT SELECTED AWARDS</button>
+
+	<button id="button" class="submitButton" disabled="true">SUBMIT SELECTED AWARDS</button>
 	<button id="add">Add New Student</button>
 
 	<nav class="socialmediaicons"></nav>
 	<script src="script.js"></script>
-	
+
 </body>
+
 </html>
